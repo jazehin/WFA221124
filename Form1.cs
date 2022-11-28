@@ -57,24 +57,51 @@ namespace WFA221124
 
         private void ModifyData(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(tbNameModify.Text))
+            {
+                MessageBox.Show("A név mezõ nem lehet üres!", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
             string command = $"UPDATE pelda.dbo.emberek SET " +
                 $"nev = '{tbNameModify.Text}', " +
                 $"nem = {(rbWomanModify.Checked ? 0 : 1)}, " +
                 $"szul = '{DateTime.Parse(dtpModify.Value.ToShortDateString()).ToString("yyyy-MM-dd")}' " +
                 $"WHERE id = {dgvAdatok.SelectedRows[0].Cells[0].Value.ToString()};";
             SqlCommand sql = new SqlCommand(command, connection);
-            sql.ExecuteNonQuery();
+
+            
+            SqlDataAdapter sda = new SqlDataAdapter() //prevent sql injection
+            {
+                UpdateCommand = sql
+            };
+            sda.UpdateCommand.ExecuteNonQuery();
+
             LoadData(cbAdult.Checked);
         }
 
         private void AddData(object sender, EventArgs e)
         {
-            string command = $"INSERT INTO pelda.dbo.emberek (nev, nem, szul) VALUES (" +
+            if (string.IsNullOrWhiteSpace(tbNameAdd.Text))
+            {
+                MessageBox.Show("A név mezõ nem lehet üres!", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
+            string command = $"INSERT INTO pelda.dbo.emberek VALUES (" +
                 $"'{tbNameAdd.Text}', " +
                 $"{(rbWomanAdd.Checked ? 0 : 1)}, " +
                 $"'{DateTime.Parse(dtpAdd.Value.ToShortDateString()).ToString("yyyy-MM-dd")}');";
             SqlCommand sql = new SqlCommand(command, connection);
-            sql.ExecuteNonQuery();
+
+            SqlDataAdapter sda = new SqlDataAdapter() //prevent sql injection
+            {
+                InsertCommand = sql
+            };
+            sda.InsertCommand.ExecuteNonQuery();
+
             LoadData(cbAdult.Checked);
         }
     }
