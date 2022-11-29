@@ -1,4 +1,5 @@
 using Microsoft.Data.SqlClient;
+using System.Security.Cryptography.X509Certificates;
 using WFA221124.Properties;
 
 namespace WFA221124
@@ -6,6 +7,7 @@ namespace WFA221124
     public partial class Form1 : Form
     {
         private static SqlConnection connection = new SqlConnection(Resources.ConnectionString);
+        private static int selectedIndex;
 
         public Form1()
         {
@@ -44,6 +46,8 @@ namespace WFA221124
             }
 
             reader.Close();
+
+            dgvAdatok.ClearSelection();
         }
 
         private void OnSelectionChanged(object sender, EventArgs e)
@@ -57,6 +61,7 @@ namespace WFA221124
 
         private void ModifyData(object sender, EventArgs e)
         {
+            if (selectedIndex < 0) return;
             if (string.IsNullOrWhiteSpace(tbNameModify.Text))
             {
                 MessageBox.Show("A név mezõ nem lehet üres!", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -103,6 +108,37 @@ namespace WFA221124
             sda.InsertCommand.ExecuteNonQuery();
 
             LoadData(cbAdult.Checked);
+        }
+
+        private void OnCellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            selectedIndex = e.RowIndex;
+            if (selectedIndex < 0) return;
+
+            tbNameModify.Text = dgvAdatok.Rows[selectedIndex].Cells["Nev"].Value.ToString();
+            if (dgvAdatok.Rows[selectedIndex].Cells["Nem"].Value.ToString() == "nõ") rbWomanModify.Checked = true;
+            else rbManModify.Checked = true;
+            dtpModify.Value = DateTime.Parse(dgvAdatok.Rows[selectedIndex].Cells["Szuletett"].Value.ToString());
+        }
+
+        private void OnDeleteBtnClick(object sender, EventArgs e)
+        {
+            if (selectedIndex < 0) return;
+            DialogResult diagres = MessageBox.Show(text: $"Biztos törölni szeretné {dgvAdatok[1, selectedIndex].Value} adatait?", caption: "Figyelmeztetés", buttons: MessageBoxButtons.YesNo, icon: MessageBoxIcon.Warning);
+
+            if (diagres == DialogResult.Yes)
+            {
+                string command = $"DELETE FROM pelda.dbo.emberek WHERE id = {(int)dgvAdatok[0, selectedIndex].Value};";
+                SqlCommand sql = new SqlCommand(command, connection);
+
+                SqlDataAdapter sda = new SqlDataAdapter() //prevent sql injection
+                {
+                    DeleteCommand = sql
+                };
+                sda.DeleteCommand.ExecuteNonQuery();
+
+                LoadData(cbAdult.Checked);
+            }
         }
     }
 }

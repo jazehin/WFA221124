@@ -52,6 +52,7 @@
             this.lblDateBornAdd = new System.Windows.Forms.Label();
             this.lblSexAdd = new System.Windows.Forms.Label();
             this.lblNameAdd = new System.Windows.Forms.Label();
+            this.btnDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAdatok)).BeginInit();
             this.gbModify.SuspendLayout();
             this.gbAdd.SuspendLayout();
@@ -71,14 +72,15 @@
             this.Nev,
             this.Nem,
             this.Szuletett});
-            this.dgvAdatok.Location = new System.Drawing.Point(12, 12);
+            this.dgvAdatok.Location = new System.Drawing.Point(12, 10);
+            this.dgvAdatok.MultiSelect = false;
             this.dgvAdatok.Name = "dgvAdatok";
             this.dgvAdatok.ReadOnly = true;
             this.dgvAdatok.RowTemplate.Height = 25;
             this.dgvAdatok.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAdatok.Size = new System.Drawing.Size(776, 201);
             this.dgvAdatok.TabIndex = 0;
-            this.dgvAdatok.SelectionChanged += new System.EventHandler(this.OnSelectionChanged);
+            this.dgvAdatok.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnCellClick);
             // 
             // ID
             // 
@@ -117,6 +119,7 @@
             // 
             // gbModify
             // 
+            this.gbModify.Controls.Add(this.btnDelete);
             this.gbModify.Controls.Add(this.btnModify);
             this.gbModify.Controls.Add(this.dtpModify);
             this.gbModify.Controls.Add(this.rbManModify);
@@ -127,7 +130,7 @@
             this.gbModify.Controls.Add(this.lblNameModify);
             this.gbModify.Location = new System.Drawing.Point(198, 233);
             this.gbModify.Name = "gbModify";
-            this.gbModify.Size = new System.Drawing.Size(236, 164);
+            this.gbModify.Size = new System.Drawing.Size(338, 164);
             this.gbModify.TabIndex = 2;
             this.gbModify.TabStop = false;
             this.gbModify.Text = "Módosítás";
@@ -136,7 +139,7 @@
             // 
             this.btnModify.Location = new System.Drawing.Point(20, 126);
             this.btnModify.Name = "btnModify";
-            this.btnModify.Size = new System.Drawing.Size(188, 23);
+            this.btnModify.Size = new System.Drawing.Size(148, 23);
             this.btnModify.TabIndex = 7;
             this.btnModify.Text = "Módosítás";
             this.btnModify.UseVisualStyleBackColor = true;
@@ -146,7 +149,7 @@
             // 
             this.dtpModify.CustomFormat = "yyyy";
             this.dtpModify.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpModify.Location = new System.Drawing.Point(71, 88);
+            this.dtpModify.Location = new System.Drawing.Point(71, 90);
             this.dtpModify.Name = "dtpModify";
             this.dtpModify.Size = new System.Drawing.Size(137, 23);
             this.dtpModify.TabIndex = 6;
@@ -154,7 +157,7 @@
             // rbManModify
             // 
             this.rbManModify.AutoSize = true;
-            this.rbManModify.Location = new System.Drawing.Point(145, 62);
+            this.rbManModify.Location = new System.Drawing.Point(150, 63);
             this.rbManModify.Name = "rbManModify";
             this.rbManModify.Size = new System.Drawing.Size(46, 19);
             this.rbManModify.TabIndex = 5;
@@ -165,7 +168,7 @@
             // rbWomanModify
             // 
             this.rbWomanModify.AutoSize = true;
-            this.rbWomanModify.Location = new System.Drawing.Point(82, 62);
+            this.rbWomanModify.Location = new System.Drawing.Point(87, 63);
             this.rbWomanModify.Name = "rbWomanModify";
             this.rbWomanModify.Size = new System.Drawing.Size(39, 19);
             this.rbWomanModify.TabIndex = 4;
@@ -192,7 +195,7 @@
             // lblNemModify
             // 
             this.lblNemModify.AutoSize = true;
-            this.lblNemModify.Location = new System.Drawing.Point(20, 62);
+            this.lblNemModify.Location = new System.Drawing.Point(20, 64);
             this.lblNemModify.Name = "lblNemModify";
             this.lblNemModify.Size = new System.Drawing.Size(36, 15);
             this.lblNemModify.TabIndex = 1;
@@ -217,7 +220,7 @@
             this.gbAdd.Controls.Add(this.lblDateBornAdd);
             this.gbAdd.Controls.Add(this.lblSexAdd);
             this.gbAdd.Controls.Add(this.lblNameAdd);
-            this.gbAdd.Location = new System.Drawing.Point(490, 233);
+            this.gbAdd.Location = new System.Drawing.Point(552, 233);
             this.gbAdd.Name = "gbAdd";
             this.gbAdd.Size = new System.Drawing.Size(236, 164);
             this.gbAdd.TabIndex = 8;
@@ -238,7 +241,7 @@
             // 
             this.dtpAdd.CustomFormat = "yyyy";
             this.dtpAdd.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpAdd.Location = new System.Drawing.Point(71, 88);
+            this.dtpAdd.Location = new System.Drawing.Point(71, 90);
             this.dtpAdd.Name = "dtpAdd";
             this.dtpAdd.Size = new System.Drawing.Size(137, 23);
             this.dtpAdd.TabIndex = 6;
@@ -246,7 +249,7 @@
             // rbManAdd
             // 
             this.rbManAdd.AutoSize = true;
-            this.rbManAdd.Location = new System.Drawing.Point(145, 62);
+            this.rbManAdd.Location = new System.Drawing.Point(150, 63);
             this.rbManAdd.Name = "rbManAdd";
             this.rbManAdd.Size = new System.Drawing.Size(46, 19);
             this.rbManAdd.TabIndex = 5;
@@ -257,7 +260,7 @@
             // rbWomanAdd
             // 
             this.rbWomanAdd.AutoSize = true;
-            this.rbWomanAdd.Location = new System.Drawing.Point(82, 62);
+            this.rbWomanAdd.Location = new System.Drawing.Point(87, 63);
             this.rbWomanAdd.Name = "rbWomanAdd";
             this.rbWomanAdd.Size = new System.Drawing.Size(39, 19);
             this.rbWomanAdd.TabIndex = 4;
@@ -284,7 +287,7 @@
             // lblSexAdd
             // 
             this.lblSexAdd.AutoSize = true;
-            this.lblSexAdd.Location = new System.Drawing.Point(20, 62);
+            this.lblSexAdd.Location = new System.Drawing.Point(20, 64);
             this.lblSexAdd.Name = "lblSexAdd";
             this.lblSexAdd.Size = new System.Drawing.Size(36, 15);
             this.lblSexAdd.TabIndex = 1;
@@ -298,6 +301,16 @@
             this.lblNameAdd.Size = new System.Drawing.Size(31, 15);
             this.lblNameAdd.TabIndex = 0;
             this.lblNameAdd.Text = "Név:";
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(174, 126);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(148, 23);
+            this.btnDelete.TabIndex = 8;
+            this.btnDelete.Text = "Törlés";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.OnDeleteBtnClick);
             // 
             // Form1
             // 
@@ -348,5 +361,6 @@
         private Label lblDateBornAdd;
         private Label lblSexAdd;
         private Label lblNameAdd;
+        private Button btnDelete;
     }
 }
